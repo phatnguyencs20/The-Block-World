@@ -1,6 +1,6 @@
 from predicate import *
 from action import *
-from TheBlockWorld import State
+from TheBlockWorld import *
 
 A = 'A'
 B = 'B'
@@ -12,14 +12,16 @@ G = 'G'
 
 start = [[A, B], [C]]
 
-s = State(start)
+goal = [[A], [C], [B]]
+
+s = TheBlockWorld(start, goal)
 
 print(repr(s))
 
-print('\n')
+print('---------------------------------------------------------------------')
 
-s.apply(UNSTACK(B, A))
+print(s.blocks)
 
-s.apply(STACK(B, C))
+s.solve()
 
-print(repr(s))
+print(s.solution)
