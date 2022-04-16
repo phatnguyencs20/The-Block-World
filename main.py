@@ -18,10 +18,8 @@ s = TheBlockWorld(start, goal)
 
 print(repr(s))
 
-print('---------------------------------------------------------------------')
-
-print(s.blocks)
+print('------------------------------------------------------------------')
 
 s.solve()
 
-print(s.solution)
+print(repr(s))

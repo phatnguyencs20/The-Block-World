@@ -27,10 +27,10 @@ class ArmEmpty(Predicate):
 class Holding(Predicate):
     """Holding(X) means that the robot hand is holding block X."""
     def __init__(self, block: chr):
-        self.block = ord(block)
+        self.block = block
 
     def __hash__(self) -> int:
-        return hash(self.block << 3)
+        return hash(ord(self.block) << 3)
     
     def __eq__(self, other: any) -> bool:
         return(
@@ -39,17 +39,17 @@ class Holding(Predicate):
         )
     
     def __repr__(self) -> str:
-        return 'Holding({})'.format(chr(self.block))
+        return 'Holding({})'.format(self.block)
 
 
 class OnTop(Predicate):
     """OnTop(X, Y) means that block X is right above block Y."""
     def __init__(self, block: chr, other_block: chr):
-        self.block = ord(block)
-        self.other_block = ord(other_block)
+        self.block = block
+        self.other_block = other_block
 
     def __hash__(self) -> int:
-        return (hash(self.block) << 2) ^ (hash(self.other_block) >> 1)
+        return (hash(ord(self.block)) << 2) ^ (hash(ord(self.other_block)) >> 1)
 
     def __eq__(self, other: any) -> bool:
         return(
@@ -59,16 +59,16 @@ class OnTop(Predicate):
         )
 
     def __repr__(self) -> str:
-        return 'OnTop({}, {})'.format(chr(self.block), chr(self.other_block))
+        return 'OnTop({}, {})'.format(self.block, self.other_block)
 
 
 class OnTable(Predicate):
     """OnTable(X) means that block X is at the bottom of a particular stack."""
     def __init__(self, block: chr):
-        self.block = ord(block)
+        self.block = block
     
     def __hash__(self) -> int:
-        return hash(self.block) << 2
+        return hash(ord(self.block)) << 2
     
     def __eq__(self, other: any) -> bool:
         return(
@@ -77,17 +77,17 @@ class OnTable(Predicate):
         )
     
     def __repr__(self) -> str:
-        return 'OnTable({})'.format(chr(self.block))
+        return 'OnTable({})'.format(self.block)
 
 
 class Top(Predicate):
     """Top(X) means that block X is on top of all other blocks of its stack,
     or is being held by the robot hand."""
     def __init__(self, block: chr):
-        self.block = ord(block)
+        self.block = block
 
     def __hash__(self) -> int:
-        return hash(self.block) << 5
+        return hash(ord(self.block)) << 5
     
     def __eq__(self, other: any) -> bool:
         return(
@@ -96,4 +96,4 @@ class Top(Predicate):
         )
     
     def __repr__(self) -> str:
-        return 'Top({})'.format(chr(self.block))
+        return 'Top({})'.format(self.block)

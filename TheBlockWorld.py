@@ -8,7 +8,7 @@ class TheBlockWorld():
     def __init__(self, start_stacks, goal_stacks):
         self.predicates = set()
         self.goal = set()
-        self.solution = None
+        self.solution = []
         self.blocks = []
 
         for stack in start_stacks:
@@ -38,7 +38,7 @@ class TheBlockWorld():
         s = ''
         first = True
 
-        for item in self.predicates:
+        for item in self.database:
             if first is True:
                 s += repr(item)
                 first = False
@@ -68,6 +68,8 @@ class TheBlockWorld():
                 actions.append(PICKUP(block))
             if self.applicable(PUTDOWN(block)):
                 actions.append(PUTDOWN(block))
+        if len(actions) == 0:
+            return None
         return actions
 
 
@@ -93,10 +95,11 @@ class TheBlockWorld():
             if isinstance(s, Predicate) and s in self.database:
                 pass
             elif isinstance(s, Predicate) and s not in self.database:
-                actions = self.actions()
-                if actions is not None:
-                    for action in actions:
-                        if s in action.postconditions()[1]:
+                possible_actions = self.actions()
+                if possible_actions is not None:
+                    for action in possible_actions:
+                        remove, add = action.postconditions()
+                        if s in add:
                             Stack.put(action)
                             for predicate in action.preconditions():
                                 Stack.put(predicate)
