@@ -1,13 +1,15 @@
+from typing import Any
+
 class Predicate():
     """A predicate is a constraint that the state satisfies."""
     def __hash__(self) -> int:
-        pass
+        return 0
 
-    def __eq__(self, other: any) -> bool:
-        pass
+    def __eq__(self, other: Any) -> bool:
+        return False
 
     def __repr__(self) -> str:
-        pass
+        return ''
 
 class ArmEmpty(Predicate):
     """ArmEmpty() means that the robot hand is not holding anything."""
@@ -17,7 +19,7 @@ class ArmEmpty(Predicate):
     def __hash__(self) -> int:
         return 0
 
-    def __eq__(self, other: any) -> bool:
+    def __eq__(self, other: Any) -> bool:
         return isinstance(other, self.__class__)
 
     def __repr__(self) -> str:
@@ -26,13 +28,13 @@ class ArmEmpty(Predicate):
 
 class Holding(Predicate):
     """Holding(X) means that the robot hand is holding block X."""
-    def __init__(self, block: chr):
+    def __init__(self, block: str):
         self.block = block
 
     def __hash__(self) -> int:
         return hash(ord(self.block) << 3)
     
-    def __eq__(self, other: any) -> bool:
+    def __eq__(self, other: Any) -> bool:
         return(
             isinstance(other, self.__class__) and
             self.block == other.block
@@ -44,14 +46,14 @@ class Holding(Predicate):
 
 class OnTop(Predicate):
     """OnTop(X, Y) means that block X is right above block Y."""
-    def __init__(self, block: chr, other_block: chr):
+    def __init__(self, block: str, other_block: str):
         self.block = block
         self.other_block = other_block
 
     def __hash__(self) -> int:
         return (hash(ord(self.block)) << 2) ^ (hash(ord(self.other_block)) >> 1)
 
-    def __eq__(self, other: any) -> bool:
+    def __eq__(self, other: Any) -> bool:
         return(
             isinstance(other, self.__class__) and
             self.block == other.block and
@@ -64,13 +66,13 @@ class OnTop(Predicate):
 
 class OnTable(Predicate):
     """OnTable(X) means that block X is at the bottom of a particular stack."""
-    def __init__(self, block: chr):
+    def __init__(self, block: str):
         self.block = block
     
     def __hash__(self) -> int:
         return hash(ord(self.block)) << 2
     
-    def __eq__(self, other: any) -> bool:
+    def __eq__(self, other: Any) -> bool:
         return(
             isinstance(other, self.__class__) and
             self.block == other.block
@@ -83,13 +85,13 @@ class OnTable(Predicate):
 class Top(Predicate):
     """Top(X) means that block X is on top of all other blocks of its stack,
     or is being held by the robot hand."""
-    def __init__(self, block: chr):
+    def __init__(self, block: str):
         self.block = block
 
     def __hash__(self) -> int:
         return hash(ord(self.block)) << 5
     
-    def __eq__(self, other: any) -> bool:
+    def __eq__(self, other: Any) -> bool:
         return(
             isinstance(other, self.__class__) and
             self.block == other.block
